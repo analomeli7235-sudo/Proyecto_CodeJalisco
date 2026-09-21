@@ -4,7 +4,7 @@ import { EstadoPill } from "@/components/EstadoPill";
 import { buscarPorFolio, ESTADOS, type Reporte } from "@/lib/reportes";
 
 export const Route = createFileRoute("/seguimiento")({
-  validateSearch: (search: Record<string, unknown>): { folio?: string } => ({
+  validateSearch: (search: Record<string, unknown>): { folio?: string | undefined } => ({
     folio: typeof search["folio"] === "string" ? (search["folio"] as string) : undefined,
   }),
   head: () => ({
