@@ -121,13 +121,69 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+const NAV = [
+  { to: "/", label: "Inicio" },
+  { to: "/reportar", label: "Reportar problema" },
+  { to: "/seguimiento", label: "Consultar folio" },
+  { to: "/panel", label: "Panel de dependencia" },
+  { to: "/documentacion", label: "Documentación" },
+] as const;
+
+function Encabezado() {
+  return (
+    <header className="border-b-4 border-olive-dark bg-olive text-primary-foreground">
+      <div className="cj-container flex flex-wrap items-center justify-between gap-3 py-4">
+        <Link to="/" className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-sm border border-primary-foreground/60 text-lg font-bold">
+            CJ
+          </span>
+          <span>
+            <span className="block text-xl font-bold leading-tight">CodeJalisco</span>
+            <span className="block text-sm opacity-90">Plataforma ciudadana de reportes urbanos</span>
+          </span>
+        </Link>
+        <nav className="flex flex-wrap gap-1 text-base">
+          {NAV.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              activeProps={{ className: "bg-olive-dark underline" }}
+              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-olive-dark"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function PieDePagina() {
+  return (
+    <footer className="mt-12 border-t-4 border-olive-dark bg-olive-dark text-primary-foreground">
+      <div className="cj-container flex flex-wrap justify-between gap-4 py-6 text-sm">
+        <p>CodeJalisco — Proyecto académico, Desarrollo de Sistemas Web.</p>
+        <p className="opacity-90">Sprint 2: diseño de interfaz, estructura y navegación.</p>
+      </div>
+    </footer>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col">
+        <Encabezado />
+        <main className="flex-1">
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </main>
+        <PieDePagina />
+      </div>
     </QueryClientProvider>
   );
 }
