@@ -4,8 +4,8 @@ import { EstadoPill } from "@/components/EstadoPill";
 import { buscarPorFolio, ESTADOS, type Reporte } from "@/lib/reportes";
 
 export const Route = createFileRoute("/seguimiento")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    folio: typeof search.folio === "string" ? search.folio : "",
+  validateSearch: (search: Record<string, unknown>): { folio?: string } => ({
+    folio: typeof search["folio"] === "string" ? (search["folio"] as string) : undefined,
   }),
   head: () => ({
     meta: [
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/seguimiento")({
 });
 
 function Seguimiento() {
-  const { folio: folioInicial } = Route.useSearch();
+  const { folio: folioInicial = "" } = Route.useSearch();
   const [folio, setFolio] = useState(folioInicial);
   const [resultado, setResultado] = useState<Reporte | null>(null);
   const [buscado, setBuscado] = useState(false);
