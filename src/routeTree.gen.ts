@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocumentacionRouteImport } from './routes/documentacion'
 import { Route as PanelRouteImport } from './routes/panel'
 import { Route as ReportarRouteImport } from './routes/reportar'
 import { Route as SeguimientoRouteImport } from './routes/seguimiento'
@@ -17,6 +18,11 @@ import { Route as SeguimientoRouteImport } from './routes/seguimiento'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentacionRoute = DocumentacionRouteImport.update({
+  id: '/documentacion',
+  path: '/documentacion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PanelRoute = PanelRouteImport.update({
@@ -37,12 +43,14 @@ const SeguimientoRoute = SeguimientoRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/documentacion': typeof DocumentacionRoute
   '/panel': typeof PanelRoute
   '/reportar': typeof ReportarRoute
   '/seguimiento': typeof SeguimientoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/documentacion': typeof DocumentacionRoute
   '/panel': typeof PanelRoute
   '/reportar': typeof ReportarRoute
   '/seguimiento': typeof SeguimientoRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/documentacion': typeof DocumentacionRoute
   '/panel': typeof PanelRoute
   '/reportar': typeof ReportarRoute
   '/seguimiento': typeof SeguimientoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/panel' | '/reportar' | '/seguimiento'
+  fullPaths: '/' | '/documentacion' | '/panel' | '/reportar' | '/seguimiento'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/panel' | '/reportar' | '/seguimiento'
-  id: '__root__' | '/' | '/panel' | '/reportar' | '/seguimiento'
+  to: '/' | '/documentacion' | '/panel' | '/reportar' | '/seguimiento'
+  id:
+    | '__root__'
+    | '/'
+    | '/documentacion'
+    | '/panel'
+    | '/reportar'
+    | '/seguimiento'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocumentacionRoute: typeof DocumentacionRoute
   PanelRoute: typeof PanelRoute
   ReportarRoute: typeof ReportarRoute
   SeguimientoRoute: typeof SeguimientoRoute
@@ -76,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documentacion': {
+      id: '/documentacion'
+      path: '/documentacion'
+      fullPath: '/documentacion'
+      preLoaderRoute: typeof DocumentacionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/panel': {
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocumentacionRoute: DocumentacionRoute,
   PanelRoute: PanelRoute,
   ReportarRoute: ReportarRoute,
   SeguimientoRoute: SeguimientoRoute,
